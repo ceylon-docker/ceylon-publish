@@ -1,7 +1,7 @@
 #
 # Image used to publish the official Ceylon distribution to a Herd server
 #
-FROM ceylon/ceylon
+FROM ceylon/ceylon:latest-onbuild
 
 MAINTAINER Tako Schotanus <tako@ceylon-lang.org>
 
