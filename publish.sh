@@ -19,10 +19,10 @@ fi
 
 unzip /output/ceylon-${PUBLISH_VERSION}.zip
 
-MODULES=$(find ceylon-${PUBLISH_VERSION}/repo -name '*.[cj]ar' -printf "%P\n" | sed -r 's/^(.*)\/([^\/]*)\/[^\/]*/\1$\2/' | tr "/$" "./")
+MODULES=$(find ceylon-${PUBLISH_VERSION}/repo -regextype egrep -regex '.*\.(car|jar|js)' -printf "%P\n" | sed -r 's/^(.*)\/([^\/]*)\/[^\/]*/\1$\2/' | tr "/$" "./")
 
 echo ""
-echo "Found the following modules: ${MODULES}"
+echo "Found the following distribution modules: ${MODULES}"
 echo ""
 
 ceylon copy \
@@ -34,4 +34,20 @@ ceylon copy \
     --pass "${HERD_PASS}" \
     --all \
     ${MODULES}
+
+SDKMODULES=$(find /output/sdk-modules-${PUBLISH_VERSION} -regextype egrep -regex '.*\.(car|jar|js)' -printf "%P\n" | sed -r 's/^(.*)\/([^\/]*)\/[^\/]*/\1$\2/' | tr "/$" "./")
+
+echo ""
+echo "Found the following SDK modules: ${SDKMODULES}"
+echo ""
+
+ceylon copy \
+    --no-default-repositories \
+    --offline \
+    --rep /output/sdk-modules-${PUBLISH_VERSION} \
+    --out "${HERD_REPO}" \
+    --user "${HERD_USER}" \
+    --pass "${HERD_PASS}" \
+    --all \
+    ${SDKMODULES}
 
