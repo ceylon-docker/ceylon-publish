@@ -12,7 +12,7 @@ LABEL org.ceylon-lang.dockerfile.description="Image used to publish the official
 USER root
 RUN mkdir /output && \
     touch /output/.novolume && \
-    chown -R ceylon:ceylon /output
+    chown -R ceylon:0 /output
 VOLUME /output
 USER ceylon
 
